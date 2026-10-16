@@ -9,11 +9,13 @@ import { connectDB } from "./lib/db.js";
 dotenv.config();
 //a Node.js function that tells Node.js which DNS servers to use when resolving domain names through its DNS resolver APIs.
 dns.setServers(["8.8.8.8","1.1.1.1"]);
+const PORT = process.env.PORT;
+
+
 
 const app = express();
 
-const PORT = process.env.PORT;
-
+app.use(express.json());
 app.use("/api/auth",authRoute);
 
 app.listen(PORT,()=>{
