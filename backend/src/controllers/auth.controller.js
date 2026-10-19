@@ -108,7 +108,7 @@ export const updateProfile = async (req, res) => {
     console.log("error in update profile:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
 export const checkAuth = (req,res) =>{
   try {
