@@ -5,6 +5,6 @@ import { getUsersForSidebar } from "../controllers/message.controller.js";
 const router = express.Router();
 
 router.get("/users", protectRoute, getUsersForSidebar);
-
+router.get("/:id", protectRoute, getChatMessages);
 
 export default router;
