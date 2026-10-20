@@ -1,7 +1,22 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.ts";
+import type { IUser } from "../interfaces/index.ts";
 
-export const useAuthStore = create((set) => ({
+
+interface useAuthState {
+  authUser: IUser | null,
+  isSigningUp: boolean,
+  isLoggingIn: boolean,
+  isUpdatingProfile: boolean,
+
+  isCheckingAuth: boolean,
+
+  checkAuth: () => void
+};
+
+
+
+export const useAuthStore = create<useAuthState>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
