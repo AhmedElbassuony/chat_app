@@ -19,8 +19,9 @@ interface useAuthState {
   isCheckingAuth: boolean,
 
   checkAuth: () => void,
+  signUp: (data: IFormData) => void,
+  logout: () => void
 
-  signUp: (data: IFormData) => void
 };
 
 
@@ -56,6 +57,16 @@ export const useAuthStore = create<useAuthState>((set) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  logout: () => {
+    try {
+      axiosInstance.post("/auth/logout");
+      set({ authUser: null });
+      toast.success("Logged out successfully")
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   }
 }));
