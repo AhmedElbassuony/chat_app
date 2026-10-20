@@ -4,7 +4,7 @@ import type { IUser } from "../interfaces/index.ts";
 import toast from "react-hot-toast";
 
 interface IFormData {
-  fullName: string,
+  fullName?: string,
   email: string,
   password: string
 }
@@ -20,7 +20,8 @@ interface useAuthState {
 
   checkAuth: () => void,
   signUp: (data: IFormData) => void,
-  logout: () => void
+  logout: () => void,
+  login: (data: IFormData) => void
 
 };
 
@@ -57,6 +58,19 @@ export const useAuthStore = create<useAuthState>((set) => ({
       toast.error(error.response.data.message);
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  login: async (data) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", data);
+      set({ authUser: res.data });
+      toast.success("Logged in successfully")
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
     }
   },
 

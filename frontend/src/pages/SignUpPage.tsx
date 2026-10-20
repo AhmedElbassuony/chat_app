@@ -36,7 +36,7 @@ const SignUpPage = () => {
       toast.error("Password is required");
       return false;
     }
-    if (formData.fullName.length < 6) {
+    if (formData.password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return false;
     }
