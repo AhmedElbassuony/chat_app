@@ -17,8 +17,8 @@ interface useAuthState {
   isSigningUp: boolean,
   isLoggingIn: boolean,
   isUpdatingProfile: boolean,
-
   isCheckingAuth: boolean,
+  onlineUsers: string[],
 
   checkAuth: () => void,
   signUp: (data: IFormData) => void,
@@ -34,8 +34,8 @@ export const useAuthStore = create<useAuthState>((set) => ({
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
-
   isCheckingAuth: true,
+  onlineUsers: [],
 
   checkAuth: async () => {
     try {

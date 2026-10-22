@@ -1,4 +1,5 @@
 export interface IUser {
+  _id?: string,
   fullName: string,
   email: string,
   password: string,
@@ -8,6 +9,7 @@ export interface IUser {
 }
 
 export interface IMessage {
+  _id?: string,
   senderId: string,
   receiverId: string,
   text?: string,

@@ -13,6 +13,7 @@ interface UseChatState {
 
   getUsers: () => void,
   getMessages: (userId: string) => void,
+  setSelectedUser: (selectedUser: IUser) => void,
 };
 
 
@@ -44,7 +45,8 @@ const useChatStore = create<UseChatState>((set) => ({
     } finally {
       set({ isMessagesLoading: false });
     }
-  }
+  },
+  setSelectedUser: (selectedUser) => { set({ selectedUser: selectedUser }) },
 }));
 
 export default useChatStore;
