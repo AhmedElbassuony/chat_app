@@ -22,7 +22,7 @@ interface useAuthState {
   signUp: (data: IFormData) => void,
   logout: () => void,
   login: (data: IFormData) => void,
-  updateProfile: (data: { profilePic: string | ArrayBuffer | null }) => void
+  updateProfile: (data: FormData) => void
 };
 
 

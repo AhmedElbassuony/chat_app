@@ -7,20 +7,26 @@ const ProfilePage = () => {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
   const [selectedImg, setSelectedImg] = useState<string | ArrayBuffer | null>(null);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
+  const handleImageUpload = async (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const file = e.target.files?.[0];
 
-      reader.readAsDataURL(file);
+  if (!file) return;
 
-      reader.onload = () => {
-        const base64Image = reader.result;
-        setSelectedImg(base64Image);
-        updateProfile({ profilePic: base64Image });
-      }
-    }
+  if (!file.type.startsWith("image/")) {
+    alert("Please select an image");
+    return;
   }
+
+  const previewUrl = URL.createObjectURL(file);
+  setSelectedImg(previewUrl);
+
+  const formData = new FormData();
+  formData.append("profilePic", file);
+
+  updateProfile(formData);
+};
 
   return (
     <div className="h-screen pt-20">
