@@ -6,3 +6,12 @@ export interface IUser {
   createdAt?: string,
   updatedAt?: string,
 }
+
+export interface IMessage {
+  senderId: string,
+  receiverId: string,
+  text?: string,
+  image?: string,
+  createdAt?: string,
+  updatedAt?: string,
+}
