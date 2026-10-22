@@ -3,6 +3,25 @@ import { axiosInstance } from "../lib/axios.ts";
 import type { IUser } from "../interfaces/index.ts";
 import toast from "react-hot-toast";
 
+const getErrorMessage = (error: unknown): string => {
+  if (typeof error === "object" && error !== null && "response" in error) {
+    const response = error.response;
+    if (typeof response === "object" && response !== null && "data" in response) {
+      const data = response.data;
+      if (
+        typeof data === "object" &&
+        data !== null &&
+        "message" in data &&
+        typeof data.message === "string"
+      ) {
+        return data.message;
+      }
+    }
+  }
+
+  return error instanceof Error ? error.message : "An unexpected error occurred";
+};
+
 interface IFormData {
   fullName?: string,
   email: string,
@@ -55,7 +74,7 @@ export const useAuthStore = create<useAuthState>((set) => ({
       set({ authUser: res.data });
       toast.success("Account created successfully")
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(getErrorMessage(error));
     } finally {
       set({ isSigningUp: false });
     }
@@ -68,7 +87,7 @@ export const useAuthStore = create<useAuthState>((set) => ({
       set({ authUser: res.data });
       toast.success("Logged in successfully")
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(getErrorMessage(error));
     } finally {
       set({ isLoggingIn: false });
     }
@@ -80,7 +99,7 @@ export const useAuthStore = create<useAuthState>((set) => ({
       set({ authUser: null });
       toast.success("Logged out successfully")
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(getErrorMessage(error));
     }
   },
 
@@ -93,7 +112,7 @@ export const useAuthStore = create<useAuthState>((set) => ({
       console.log(res.data);
     } catch (error) {
       console.log("error in update profile:", error);
-      toast.error(error.response.data.message);
+      toast.error(getErrorMessage(error));
     } finally {
       set({ isUpdatingProfile: false });
     }
