@@ -14,10 +14,11 @@ interface UseChatState {
   getUsers: () => void,
   getMessages: (userId: string) => void,
   setSelectedUser: (selectedUser: IUser | null) => void,
+  sendMessage: (data: IMessage) => void,
 };
 
 
-const useChatStore = create<UseChatState>((set) => ({
+const useChatStore = create<UseChatState>((set, get) => ({
   users: [],
   messages: [],
   selectedUser: null,
@@ -47,6 +48,15 @@ const useChatStore = create<UseChatState>((set) => ({
     }
   },
   setSelectedUser: (selectedUser) => { set({ selectedUser: selectedUser }) },
+  sendMessage: async (data: IMessage) => {
+    const { messages, selectedUser } = get();
+    try {
+      const res = await axiosInstance.post(`/messages/send/${selectedUser?._id}`, data);
+      set({ messages: [...messages, res.data] });
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
+  }
 }));
 
 export default useChatStore;
