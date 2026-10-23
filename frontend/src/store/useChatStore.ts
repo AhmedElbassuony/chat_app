@@ -13,7 +13,7 @@ interface UseChatState {
 
   getUsers: () => void,
   getMessages: (userId: string) => void,
-  setSelectedUser: (selectedUser: IUser) => void,
+  setSelectedUser: (selectedUser: IUser | null) => void,
 };
 
 
