@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
+import toast from "react-hot-toast";
 
 
 const ProfilePage = () => {
@@ -15,7 +16,7 @@ const ProfilePage = () => {
   if (!file) return;
 
   if (!file.type.startsWith("image/")) {
-    alert("Please select an image");
+    toast.error("Please select an image");
     return;
   }
 

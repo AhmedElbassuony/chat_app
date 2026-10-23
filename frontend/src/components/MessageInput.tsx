@@ -1,13 +1,51 @@
 import { X, Image, Send } from "lucide-react";
 import { useRef, useState } from "react";
+import useChatStore from "../store/useChatStore";
+import toast from "react-hot-toast";
 
 const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const removeImage = () => { };
-  const handleSendMessage = () => { };
-  const handleImageChange = () => { };
+  const { sendMessage } = useChatStore();
+
+
+  const removeImage = () => {
+    setImagePreview("");
+    if (fileInputRef?.current) fileInputRef.current.value = "";
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file?.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        setImagePreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  const handleSendMessage = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!text.trim() && !imagePreview) return;
+
+    try {
+      await sendMessage({
+        text,
+        image: imagePreview
+      });
+
+      setText("");
+      removeImage();
+    } catch (error) {
+      console.error("Failed to send message:", error);
+    }
+  };
 
   return (
     <div className="p-4 w-full">
