@@ -32,7 +32,7 @@ interface useAuthState {
 };
 
 
-const BASEURL = "http://localhost:5001";
+const BASEURL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 
 export const useAuthStore = create<useAuthState>((set, get) => ({
